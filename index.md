@@ -37,3 +37,5 @@ Json format of the fourcc.
 
 FOURCC is short for "four character code" - an identifier for a video codec, compression format, colour or pixel format used in media files. [repo](https://github.com/sohonetlabs/fourcc.js)
 
+## sizefs
+A mock Filesystem that exists in memory only and allows for the creation of files of a size specified by the filename.[repo](https://github.com/sohonetlabs/sizefs)
