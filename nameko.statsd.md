@@ -1,22 +1,19 @@
-nameko-statsd
-=============
+# nameko-statsd
 
-.. image:: https://travis-ci.org/sohonetlabs/nameko-statsd.svg?branch=master
 
-A StatsD dependency for `nameko <http://nameko.readthedocs.org>`_, enabling
+A StatsD dependency for [nameko](http://nameko.readthedocs.org), enabling
 services to send stats.
 
 
 
-Usage
------
+## Usage
+
 
 To use the dependency you simply declare it on the service and then you
 can use it within any of the service methods (entrypoints, simple methods, etc.).
 
 
-.. code-block:: python
-
+```python
     from nameko_statsd import StatsD, ServiceBase
 
     class Service(ServiceBase):
@@ -36,6 +33,7 @@ can use it within any of the service methods (entrypoints, simple methods, etc.)
         def simple_method(self, value):
             self.statsd.gauge(value)
             ...
+```
 
 
 The ``statsd.StatsClient`` instance exposes a set of methods that you can
@@ -51,16 +49,15 @@ to change its logic.
 
 
 
-Configuration
--------------
+## Configuration
+
 
 The library expects the following values to be in the config file you
 use for your service (you need one configuration block per different
 statsd server).  For example, if we had two statsd servers, prod1 and
 prod2, we would have something like this:
 
-.. code-block:: yaml
-
+```yaml
     STATSD:
       prod1:
         host: "host1"
@@ -74,6 +71,7 @@ prod2, we would have something like this:
         prefix: "prefix-2"
         maxudpsize: 512
         enabled: false
+```
 
 
 The first four values are passed directly to ``statsd.StatsClient`` on
@@ -83,8 +81,8 @@ production 1 is enabled while production 2 is not.
 
 
 
-Minimum setup
--------------
+## Minimum setup
+
 
 At the time of writing a Nameko service, you don't have access to the
 config values.  This means that when we write our service we don't have
@@ -105,36 +103,35 @@ attribute name of the dependency itself.
 
 The following configuration:
 
-.. code-block:: python
-
+```python
     class MyService(ServiceBase):
 
         statsd = StatsD('prod1')
 
         ...
+```
 
 is equivalent to (notice it inherits from ``object``):
 
-.. code-block:: python
-
+```python
     class MyService(object):
 
         statsd = StatsD('prod1', name='statsd')
 
         ...
+```
 
 
 
-The ``StatsD.timer`` decorator
-------------------------------
+## The ``StatsD.timer`` decorator
+
 
 You can pass any arguments to the decorator, they will be given to the
 ``statsd.StatsClient().timer`` decorator.
 
 So, for example:
 
-.. code-block:: python
-
+```python
     class MyService(ServiceBase):
 
         statsd = StatsD('prod1')
@@ -147,11 +144,11 @@ So, for example:
         @statsd.timer('another-stat')
         def another_method(...):
             # method body
+```
 
 is equivalent to the following:
 
-.. code-block:: python
-
+```python
     class MyService(ServiceBase):
 
         statsd = StatsD('prod1')
@@ -164,17 +161,16 @@ is equivalent to the following:
         def another_method(...):
             with self.statsd.client.timer('another-stat'):
                 # method body
+```
+
+<aside class="warning">
+When using ``self.statsd.client.timer`` as a context manager, you're
+bypassing the dependency, which means that the timer will be acted
+regardless of how the ``enabled`` setting is configured.
+</aside>
 
 
-.. warning::
-    When using ``self.statsd.client.timer`` as a context manager, you're
-    bypassing the dependency, which means that the timer will be acted
-    regardless of how the ``enabled`` setting is configured.
-
-
-
-About the lazy client
----------------------
+## About the lazy client
 
 When you attach a ``nameko_statsd.StatsD`` dependency to your service, no
 client is created.  Only when you use the dependency explicitly or when
