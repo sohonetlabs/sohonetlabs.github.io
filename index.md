@@ -1,10 +1,8 @@
 ![sohonet logo](images/sohonetlogo.png "sohonet logo")
 
-# Sohonet Labs
+# Labs
 
 Open source code from sohonet.
-
-# Nameko Related
 
 ## Nameko StatsD
 
@@ -20,8 +18,6 @@ Open source code from sohonet.
 
 [miko](miko.md) is about making RPC requests from javascript to nameko.
 
-# Security Related
-
 ## CISE-ELK
 
 [CISE.ELK](CISE.elk.md) contains all the logstash and pmacctd configs, elasticsearch index templates, kibana dashboards and elastalert alerting rules created for the CISE project. It represents an entire configured ELK stack which can be used to record and report on security relevant events for your infrastructure.
@@ -34,8 +30,6 @@ Populate Elastic Search with [FireHOL](http://iplists.firehol.org/) ip lists.
 ## Ciseipdb Logstash Plugin
 
 This plugin allows you to search for matching IPs in Elasticsearch IP database indexes and add that information into events. [repo](https://github.com/sohonetlabs/logstash-filter-ciseipdb)
-
-# Media
 
 ## fourcc.js
 
