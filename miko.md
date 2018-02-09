@@ -1,19 +1,37 @@
 # Miko (巫女)
 
-JavaScript client to make RPC calls to Nameko services.
+At Sohonet, we embrace microservices. They allow us to move faster, scale up easily and experiment with different technologies. One problem you need to solve with microservices architecture is the communication between services. You can use RESTful API, RPC calls or any other method to send data across services.
 
-Inspired by [node-nameko-client](https://github.com/and3rson/node-nameko-client) by [@and3rson](https://github.com/and3rson) 🙏
+Since we are using Python in our backend services, we use Nameko. Nameko is a microservices framework for Python that lets service developers concentrate on application logic. You can have many separate Python services that can talk to each other and feel like a one big system.
 
-### Usage
+Under the hood, Nameko is using messaging queues to send requests and share data across services.
+
+It all works nice as long as you are in the Python realm. But what if you need to share data across Python and Javascript services?
+
+Enter Miko.
+
+Miko is a Javascript library for communicating with Nameko services. It connects to the same queue Nameko uses and can send requests to Nameko services written in Python. Python services then respond to the request and send back the response to Javascript service.
+
+With Miko, we can let backend and frontend developers do what they do the best. Frontend developers can focus on services that serve the frontend, while backend developers can focus on optimizing backend services, letting everyone move faster. Win-win for everyone!
+
+Let's see Miko in action then, shall we?
+
+I assume you have your Nameko services up and running.
+
+Install Miko by typing `npm install miko`.
+
+Talking to Nameko with Miko is very easy. Just connect to the queue, make the request, grab the response and it's done!
+
+Here is the above sentence written in Javascript:
 
 ```javascript
-const { connect } = require('./index.js');
+import { connect } from 'miko';
 
 // First, connect to the queue
 // connect returns a promise which will be resolved when everything goes ok
 //
 //
-//  Default options:
+// Default options:
 //
 // host: '127.0.0.1',
 // port: 5672,
@@ -28,16 +46,7 @@ connect()
     // Use rpc to make calls to nameko services
 
     rpc
-      .fetch('demo_svc', 'noargs')
-      // .fetch('demo_svc', 'get_data')
-      // .fetch('demo_svc', 'get_data', [2])
-      // .fetch('demo_svc', 'get_data', [], { copies: 10})
-      // .fetch('demo_svc', 'required_and_optional', ['test'])
-      // .fetch('demo_svc', 'variable', ['test', 'another'], { o: 1 })
-      // .fetch('demo_svc', 'return_none')
-      // .fetch('demo_svc', 'raise_value_error')
-      // .fetch('demo_svc', 'raise_exception')
-      // .fetch('demo_svc', 'raise_index_error')
+      .fetch('nameko_service', 'get_pizza')
         .then((response) => {
           console.log('Response', response);
           rpc.close();
@@ -52,6 +61,8 @@ connect()
   });
 ```
 
-### License
+And that's it. Now you are ready to call Python methods via Nameko in Javascript.
 
-[MIT](./LICENSE)
+You can check Miko's code here: https://github.com/sohonetlabs/miko
+
+Miko brings together two worlds - Python and Javascript. This is reflected in the name of the library. Miko (巫女) is a Japanese name of a female shaman who knows how to connect earth to the heavens.
