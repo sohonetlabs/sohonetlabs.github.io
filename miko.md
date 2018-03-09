@@ -63,6 +63,6 @@ connect()
 
 And that's it. Now you are ready to call Python methods via Nameko in Javascript.
 
-You can check Miko's code here: https://github.com/sohonetlabs/miko
+You can check Miko's code here: [https://github.com/sohonetlabs/miko](https://github.com/sohonetlabs/miko)
 
 Miko brings together two worlds - Python and Javascript. This is reflected in the name of the library. Miko (巫女) is a Japanese name of a female shaman who knows how to connect earth to the heavens.
